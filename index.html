@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lépésszámláló applikáció</title>
+    <title>Money Manager</title>
 
     <link rel="stylesheet" href="Assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="Assets/css/stepcounter.css">
+    <link rel="stylesheet" href="Assets/css/moneymanager.css">
 </head>
 <body>
 
     <div class="container">
         <header>
-            Lépésszámláló applikáció
+            Money Manager
         </header>
 
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -46,7 +46,10 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="render('chart'); showChart();">Grafikon</a>
-                    </li> 
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="render('chart'); showChart();">Egyenleg</a>
+                    </li>  
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="logout()">Kilépés</a>
                     </li>     
@@ -60,7 +63,7 @@
         </main>
 
         <footer>
-            Bajai SZC Türr István Technikum - 12.A szoftverfejlesztő
+            Bajai SZC Türr István Technikum - 12.A Varga János
         </footer>
     </div>    
 
@@ -68,7 +71,7 @@
     <script src="Assets/js/fullcalendar.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="Assets/js/axios.min.js"></script>
-    <script src="Assets/js/stepcounter.js"></script>
+    <script src="Assets/js/moneymanager.js"></script>
 
     <!-- Controllers -->
     <script src="Controllers/register.js"></script>

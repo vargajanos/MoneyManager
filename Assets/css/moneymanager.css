@@ -1,15 +1,13 @@
 body{
-    background-color: silver;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 14px;
+    background-color: skyblue;
+    font-size: 16px;
 }
 
 header{
-    background-color: slategray;
+    background-color: darkgoldenrod;
     line-height: 120px;
     min-height: 120px;
     color: white;
-    text-shadow: 0 0 3px black;
     text-align: center;
     font-size: 200%;
 }
@@ -29,7 +27,6 @@ main{
 
 .container{
     background-color: white;
-    box-shadow: 0 0 10px gray;
     padding: 10px;
 }
 

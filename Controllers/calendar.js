@@ -1,18 +1,32 @@
 
 function showCalendar(){
     let myEvents = [];
-    axios.get(`${serverURL}/steps/userID/eq/${loggedUser.ID}`).then(res=>{
+    axios.get(`${serverURL}/items/userID/eq/${loggedUser.ID}`).then(res=>{
         res.data.forEach(item => {
-            myEvents.push({
-                title: item.steps,
-                start: item.date,
-                allDay: true,
-                backgroundColor: '#336c56',
-                borderColor: '#336c56',
-            })
+
+            if (item.type=="kiadás") {
+                myEvents.push({
+                    title: item.tag +": "+ -item.amount,
+                    start: item.date,
+                    allDay: true,
+                    backgroundColor: '#FF0000',
+                    borderColor: '#FF0000',
+                })
+            }
+            else{
+                myEvents.push({
+                    title: item.tag +": "+ item.amount,
+                    start: item.date,
+                    allDay: true,
+                    backgroundColor: '#336c56',
+                    borderColor: '#336c56',
+                })
+            }
+           
         });
     });
 
+   
     setTimeout(()=>{
 
         var calendarEl = document.getElementById('calendar');

@@ -22,7 +22,7 @@ function addSteps(){
             let vane = false;
             let upID = -1;
             res.data.forEach(item => {
-                if (item.date.split('T')[0] == date.value){
+                if (item.date.split('T')[0] == date.value && item.type == type.value){
                     vane = true;
                     upID = item.ID;
                     return;

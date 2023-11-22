@@ -10,10 +10,14 @@ function showChart(){
       labels.push(item.date.toString().split("T")[0]);
       if (item.type=="bevétel") {
         bevetel.push({x: item.date.toString().split('T')[0], y: item.amount});
+        kiadas.push({x: item.date.toString().split('T')[0], y: 0});
       }
-      else{
+      else if (item.type == "kiadás")
+      {
         kiadas.push({x: item.date.toString().split('T')[0], y: -item.amount});
-      }  
+        bevetel.push({x: item.date.toString().split('T')[0], y: 0});
+      }
+
     });
   });
 
@@ -28,16 +32,15 @@ function showChart(){
           {
             label: "Bevétel",
             data: bevetel,
-            borderWidth: 3,
+            borderWidth: 1,
             borderColor: '#89DB57',
             backgroundColor: '#89DB57'
           },{
             label: "Kiadás",
             data: kiadas,
-            borderWidth: 3,
+            borderWidth: 1,
             borderColor: '#F6795E',
             backgroundColor: '#F6795E'
-
 
           }
         ],

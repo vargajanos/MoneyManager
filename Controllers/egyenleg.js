@@ -1,19 +1,35 @@
+function egyenleg(){
 
-function showChart(){
-    let labels = [];
-    let bevetel = [];
-    let kiadas =[];
+let fields =[];
+let datas = [];
 
-  axios.get(`${serverURL}/items/userID/eq/${loggedUser.ID}`).then((res) => {
+axios.get(`${serverURL}/items/userID/eq/${loggedUser.ID}`).then((res) => {
     res.data.sort((a,b) => a.date.localeCompare(b.date));
     res.data.forEach((item) => {
-      labels.push(item.date.toString().split("T")[0]);
-      if (item.type=="bevétel") {
-        bevetel.push({x: item.date.toString().split('T')[0], y: item.amount});
-      }
-      else{
-        kiadas.push({x: item.date.toString().split('T')[0], y: -item.amount});
-      }  
+        let seged = item.amount;
+
+        if (fields.includes(item.date.toString().split('T')[0])) 
+        {
+            if (item.type ==0 ) 
+            {
+             datas[datas.length-1] -= seged;    
+            }
+            else
+            {
+                datas[datas.length-1] += seged;  
+            }    
+        }
+        else
+        {
+            fields.push(item.date.toString().split("T")[0]);
+            if (item.type == 0) 
+            {
+                seged = seged * -1;
+            }
+            datas.push(seged);
+        }
+
+
     });
   });
 
@@ -55,4 +71,7 @@ function showChart(){
       },
     });
   }, 500);
+
+
+
 }

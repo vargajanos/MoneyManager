@@ -30,10 +30,9 @@ function addSteps(){
             });
             if(vane){
                 let data = {
-                  
                     type : type.value,
-                    amount : osszeg.type,
-                    tag : tag.type	
+                    amount : osszeg.value,
+                    tag : tag.value	
                 }
                 axios.patch(`${serverURL}/items/ID/eq/${upID}`, data).then((res)=>{
                     alert('Az összeg módosítva!');

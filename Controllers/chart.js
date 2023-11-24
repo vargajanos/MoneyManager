@@ -1,55 +1,55 @@
-
-function showChart(){
-    let labels = [];
-    let bevetel = [];
-    let kiadas =[];
+function showChart() {
+  let dataMap = new Map();
 
   axios.get(`${serverURL}/items/userID/eq/${loggedUser.ID}`).then((res) => {
-    res.data.sort((a,b) => a.date.localeCompare(b.date));
+    res.data.sort((a, b) => a.date.localeCompare(b.date));
+
     res.data.forEach((item) => {
-      labels.push(item.date.toString().split("T")[0]);
-      if (item.type=="bevétel") {
-        bevetel.push({x: item.date.toString().split('T')[0], y: item.amount});
-        kiadas.push({x: item.date.toString().split('T')[0], y: 0});
-      }
-      else if (item.type == "kiadás")
-      {
-        kiadas.push({x: item.date.toString().split('T')[0], y: -item.amount});
-        bevetel.push({x: item.date.toString().split('T')[0], y: 0});
+      const datum = item.date.toString().split("T")[0];
+
+      if (!dataMap.has(datum)) {
+        dataMap.set(datum, { date: datum, bevetel: 0, kiadas: 0 });
       }
 
+      if (item.type === "bevétel") {
+        dataMap.get(datum).bevetel += item.amount;
+      } else if (item.type === "kiadás") {
+        dataMap.get(datum).kiadas += item.amount;
+      }
     });
   });
 
   setTimeout(() => {
     const ctx = document.getElementById("myChart");
 
+    const chartData = Array.from(dataMap.values());
+
     new Chart(ctx, {
       type: "bar",
       data: {
-        labels: labels,
+        labels: chartData.map((data) => data.date),
         datasets: [
           {
             label: "Bevétel",
-            data: bevetel,
+            data: chartData.map((data) => data.bevetel),
             borderWidth: 1,
-            borderColor: '#89DB57',
-            backgroundColor: '#89DB57'
-          },{
+            borderColor: "#336c56",
+            backgroundColor: "#336c56",
+          },
+          {
             label: "Kiadás",
-            data: kiadas,
+            data: chartData.map((data) => -data.kiadas),
             borderWidth: 1,
-            borderColor: '#F6795E',
-            backgroundColor: '#F6795E'
-
-          }
+            borderColor: "#FF0000",
+            backgroundColor: "#FF0000",
+          },
         ],
       },
       options: {
         responsive: true,
         scales: {
-          x:{
-            stacked:true
+          x: {
+            stacked: true,
           },
           y: {
             stacked: false,

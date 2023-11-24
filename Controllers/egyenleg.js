@@ -1,77 +1,49 @@
-function egyenleg(){
+function egyenleg() {
+  let dataMap = new Map();
 
-let fields =[];
-let datas = [];
+  axios.get(`${serverURL}/items/userID/eq/${loggedUser.ID}`).then((res) => {
+    res.data.sort((a, b) => a.date.localeCompare(b.date));
 
-axios.get(`${serverURL}/items/userID/eq/${loggedUser.ID}`).then((res) => {
-    res.data.sort((a,b) => a.date.localeCompare(b.date));
     res.data.forEach((item) => {
-        let seged = item.amount;
+      const datum = item.date.toString().split("T")[0];
 
-        if (fields.includes(item.date.toString().split('T')[0])) 
-        {
-            if (item.type ==0 ) 
-            {
-             datas[datas.length-1] -= seged;    
-            }
-            else
-            {
-                datas[datas.length-1] += seged;  
-            }    
-        }
-        else
-        {
-            fields.push(item.date.toString().split("T")[0]);
-            if (item.type == 0) 
-            {
-                seged = seged * -1;
-            }
-            datas.push(seged);
-        }
+      if (!dataMap.has(datum)) {
+        dataMap.set(datum, { date: datum, balance: 0 });
+      }
 
-
+      if (item.type === "bevétel") {
+        dataMap.get(datum).balance += item.amount;
+      } else if (item.type === "kiadás") {
+        dataMap.get(datum).balance -= item.amount;
+      }
     });
   });
 
   setTimeout(() => {
-    const ctx = document.getElementById("myChart");
+    const ctx = document.getElementById("egyenleg");
+
+    const chartData = Array.from(dataMap.values());
+
+
 
     new Chart(ctx, {
-      type: "bar",
+      type: "line",
       data: {
-        labels: labels,
+        labels: chartData.map((data) => data.date),
         datasets: [
           {
-            label: "Bevétel",
-            data: bevetel,
-            borderWidth: 3,
-            borderColor: '#89DB57',
-            backgroundColor: '#89DB57'
-          },{
-            label: "Kiadás",
-            data: kiadas,
-            borderWidth: 3,
-            borderColor: '#F6795E',
-            backgroundColor: '#F6795E'
-
-
-          }
+            label: "Egyenleg:",
+            data: chartData.map((data) => data.balance),
+            borderWidth: 2,
+            borderColor: "#3498db",
+            backgroundColor: "rgba(52, 152, 219, 0.2)", 
+            fill: true,
+          },
         ],
       },
       options: {
         responsive: true,
-        scales: {
-          x:{
-            stacked:true
-          },
-          y: {
-            stacked: false,
-          },
-        },
       },
     });
   }, 500);
-
-
-
 }
